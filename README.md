@@ -57,7 +57,7 @@ python3.7 -m jittor.test.test_example
 
 ​		此外种类c的图像与文本‘***a photo of a [CLASS c]***’特征相似，可以使用该文本特征代替整个类别的特征中心，因此在减少计算的情况下还可使用文本特征进行特征选择。平衡上述两种方法，进一步优化:
 
-![](http://latex.codecogs.com/svg.latex?\begin{aligned}&\min_{\mathbf{B}}\quad S=\alpha\cdot\frac{1}{C^{2}}\sum_{i=1}^{C}\sum_{j=1\atop{j}\neq{i}}^{C}\delta(\mathbf{x}^{i}\odot\mathbf{B},\mathbf{x}^{j}\odot\mathbf{B})+  \left({1-\alpha}\right)\cdot\sum_{i=1}^{C}P^{i}\sum_{\substack{j=1\\j\neq{i}}}^{C}P^{j}\frac{1}{M^{i}}\frac{1}{M^{j}}\sum_{m=1}^{M^{i}}\sum_{n=1}^{M^{j}}\delta(\mathbf{x}^{i,m},\mathbf{x}^{j,n}),\\&s.t.\quad\mathbf{BB}^{\top}=Q,\end{aligned})
+![](http://latex.codecogs.com/svg.latex?\begin{aligned}&\min_{\mathbf{B}}\quad{S}=\alpha\cdot\frac{1}{C^{2}}\sum_{i=1}^{C}\sum_{j=1\atop{j}\neq{i}}^{C}\delta(\mathbf{x}^{i}\odot\mathbf{B},\mathbf{x}^{j}\odot\mathbf{B})+  \left({1-\alpha}\right)\cdot\sum_{i=1}^{C}P^{i}\sum_{\substack{j=1\\j\neq{i}}}^{C}P^{j}\frac{1}{M^{i}}\frac{1}{M^{j}}\sum_{m=1}^{M^{i}}\sum_{n=1}^{M^{j}}\delta(\mathbf{x}^{i,m},\mathbf{x}^{j,n}),\\&s.t.\quad\mathbf{BB}^{\top}=Q,\end{aligned})
 
 
 ​		上述方法的相似度函数可使用任何一个衡量特征相似程度的函数进行设计，本文中利用最简单的余弦相似度衡量，即 ![](http://latex.codecogs.com/svg.latex?\delta(\mathbf{x}^{i,m},\mathbf{x}^{j,n})=x_k^{i,m}\cdot{x_k}^{j,n})
@@ -74,27 +74,25 @@ python3.7 -m jittor.test.test_example
 
 #### 2.1.3 分类嵌入关系  
 
-**（1）**基本的分类逻辑利用测试图像的特征![](http://latex.codecogs.com/svg.latex?\mathbf{f}\in\mathbb{R}^{D})与文本特征![](http://latex.codecogs.com/svg.latex?\mathbf{W}\in\mathbb{R}^{C\times D})进行相似度匹配: 
+**（1）**基本的分类逻辑利用测试图像的特征![](http://latex.codecogs.com/svg.latex?\mathbf{f}\in\mathbb{R}^{D})与文本特征![](http://latex.codecogs.com/svg.latex?\mathbf{W}\in\mathbb{R}^{C\times{D}})进行相似度匹配: 
 
-![](http://latex.codecogs.com/svg.latex?\mathbf{R}_{fW}=\mathbf{fW}^{\top}{\in}\mathbb{R}^{1\times C})
+![](http://latex.codecogs.com/svg.latex?\mathbf{R}_{fW}=\mathbf{fW}^{\top}{\in}\mathbb{R}^{1\times{C}})
 
 ​		此外，利用训练集的图像特征![](http://latex.codecogs.com/svg.latex?\mathbf{F}^{\prime}\in\mathbb{R}^{CK\times Q})可以为测试数据的分类提供方向，利用经过蒸馏的特征计算归类相似度权重:
 
-![-4](.\img\1.jpg)
+![1.png](https://s2.loli.net/2024/08/21/Mh4CqRxZSFcEB8U.png)
 
 ​		并计算训练集蒸馏特征的归类置信度，利用训练集的分类结果与对应的独热向量![](http://latex.codecogs.com/svg.latex?\text{L})计算相似度:
 
-![-3](.\img\2.jpg)
+![2.png](https://s2.loli.net/2024/08/21/t3xvPG1rQ64J5TF.png)
 
 **（2）**引入可训练的残差网络进行进一步的适应特征，以达到类神经崩塌。具体来说，类别残差Res是由一组按类别的可学习嵌入实现的。每个嵌入对应一个下游类别，旨在在**few-shot**训练过程中针对不同类别个性化的优化蒸馏的Q特征通道。为了保留嵌入空间中的视觉语言对应性，同时应用于文本特征和训练集特征，此时的逻辑改变为  
 
-![-2](.\img\3.jpg)
+![3.png](https://s2.loli.net/2024/08/21/xDg8udlIkVEwCSz.png)
 
 **（3）**最终的输出由上述加权组成:  
 
-![-1](.\img\4.jpg)
-
-
+![4.png](https://s2.loli.net/2024/08/21/MTofjXUht4AuOv7.png)
 
 ### 2.2 测试模型（best_model.pkl）复现结果
 
