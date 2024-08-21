@@ -57,7 +57,7 @@ python3.7 -m jittor.test.test_example
 
 ​		此外种类c的图像与文本‘***a photo of a [CLASS c]***’特征相似，可以使用该文本特征代替整个类别的特征中心，因此在减少计算的情况下还可使用文本特征进行特征选择。平衡上述两种方法，进一步优化:
 
-![](http://latex.codecogs.com/svg.latex?\begin{aligned}&\min_{\mathbf{B}}\quad{S}=\alpha\cdot\frac{1}{C^{2}}\sum_{i=1}^{C}\sum_{j=1\atop{j}\neq{i}}^{C}\delta(\mathbf{x}^{i}\odot\mathbf{B},\mathbf{x}^{j}\odot\mathbf{B})+  \left({1-\alpha}\right)\cdot\sum_{i=1}^{C}P^{i}\sum_{\substack{j=1\\j\neq{i}}}^{C}P^{j}\frac{1}{M^{i}}\frac{1}{M^{j}}\sum_{m=1}^{M^{i}}\sum_{n=1}^{M^{j}}\delta(\mathbf{x}^{i,m},\mathbf{x}^{j,n}),\\&s.t.\quad\mathbf{BB}^{\top}=Q,\end{aligned})
+![](http://latex.codecogs.com/svg.latex?\begin{aligned}&\min_{\mathbf{B}}\quad{S}=\alpha\cdot\frac{1}{C^{2}}\sum_{i=1}^{C}\sum_{j=1\atop{j}\neq{i}}^{C}\delta(\mathbf{x}^{i}\odot\mathbf{B},\mathbf{x}^{j}\odot\mathbf{B})+\left({1-\alpha}\right)\cdot\sum_{i=1}^{C}P^{i}\sum_{\substack{j=1\\j\neq{i}}}^{C}P^{j}\frac{1}{M^{i}}\frac{1}{M^{j}}\sum_{m=1}^{M^{i}}\sum_{n=1}^{M^{j}}\delta(\mathbf{x}^{i,m},\mathbf{x}^{j,n}),\\&s.t.\quad\mathbf{BB}^{\top}=Q,\end{aligned})
 
 
 ​		上述方法的相似度函数可使用任何一个衡量特征相似程度的函数进行设计，本文中利用最简单的余弦相似度衡量，即 ![](http://latex.codecogs.com/svg.latex?\delta(\mathbf{x}^{i,m},\mathbf{x}^{j,n})=x_k^{i,m}\cdot{x_k}^{j,n})
@@ -78,7 +78,7 @@ python3.7 -m jittor.test.test_example
 
 ![](http://latex.codecogs.com/svg.latex?\mathbf{R}_{fW}=\mathbf{fW}^{\top}{\in}\mathbb{R}^{1\times{C}})
 
-​		此外，利用训练集的图像特征![](http://latex.codecogs.com/svg.latex?\mathbf{F}^{\prime}\in\mathbb{R}^{CK\times Q})可以为测试数据的分类提供方向，利用经过蒸馏的特征计算归类相似度权重:
+​		此外，利用训练集的图像特征![](http://latex.codecogs.com/svg.latex?\mathbf{F}^{\prime}\in\mathbb{R}^{CK\times{Q}})可以为测试数据的分类提供方向，利用经过蒸馏的特征计算归类相似度权重:
 
 ![1.png](https://s2.loli.net/2024/08/21/Mh4CqRxZSFcEB8U.png)
 
